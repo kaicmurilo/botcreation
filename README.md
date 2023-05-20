@@ -28,21 +28,21 @@ Certifique-se de substituir os valores SEU_TWILIO_ACCOUNT_SID, SEU_TWILIO_AUTH_T
 
 Faça o download do código ou o clone:
 
-´´´bash
+```bash
 git clone https://github.com/kaicmurilo/botcreation
-´´´
+```
 
 Instale as depêndencias:
 
-´´´bash
+```bash
 npm install
-´´´
+```
 
 Execute o código usando o comando:
 
-´´´bash
+```bash
 node bot.js
-´´´
+```
 
 O bot enviará uma mensagem SMS para o número configurado informando que está ativo.
 
