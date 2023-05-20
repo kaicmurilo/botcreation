@@ -9,6 +9,7 @@
   "author": "Kaic Murilo Nunes <kaicmurilo@live.com> (https://github.com/kaicmurilo)",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.4.0",
     "dotenv": "^16.0.3",
     "moment": "^2.29.4",
     "node-telegram-bot-api": "^0.61.0",
