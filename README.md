@@ -21,7 +21,7 @@ TELEGRAM_TOKEN=SEU_TELEGRAM_TOKEN
 Certifique-se de substituir os valores SEU_TWILIO_ACCOUNT_SID, SEU_TWILIO_AUTH_TOKEN, SEU_NUMERO_DE_TELEFONE_DO_WHATSAPP, SEU_NUMERO_DE_TELEFONE_PARA_RECEBER_SMS e SEU_TELEGRAM_TOKEN pelas suas próprias informações.
 
 ## Uso
-Execute o código usando o comando node <nomedoarquivo.js>.
+Execute o código usando o comando *node bot.js*.
 
 O bot enviará uma mensagem SMS para o número configurado informando que está ativo.
 
