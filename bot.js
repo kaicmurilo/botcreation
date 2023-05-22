@@ -16,6 +16,17 @@ async function obterCotacoes() {
     return "Erro ao obter as cotações:", error.message;
   }
 }
+// Função para obter as cotações do dolar
+async function obterValorDolar() {
+  try {
+    const response = await axios.get(
+      "https://economia.awesomeapi.com.br/json/last/USD-BRL"
+    );
+    return response.data.USDBRL;
+  } catch (error) {
+    console.error("Erro ao obter valor do dólar:", error.message);
+  }
+}
 
 // Configuração das credenciais
 const twilioClient = twilio(
@@ -76,12 +87,19 @@ telegramBot.on("message", async (msg) => {
   }
 
   const options = {
-    1: "Valor do dólar: A implementar.",
+    1: "Aguarde enquanto as cotações são obtidas..",
     2: "Desenvolvedor Responsável: Kaic Murilo Nunes.",
     3: "Linguagem de Desenvolvimento: Node.js / JavaScript.",
     4: "Aguarde enquanto as cotações são obtidas...",
   };
 
+  if (messageText === "1") {
+    const cotacoes = await obterValorDolar();
+    console.log(cotacoes);
+    if (cotacoes) {
+      options[1] = `${cotacoes.name} \nValor mais alto: R$ ${cotacoes.high} \nValor mais baixo: R$ ${cotacoes.low}`;
+    }
+  }
   if (messageText === "4") {
     const cotacoes = await obterCotacoes();
 
