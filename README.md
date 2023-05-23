@@ -56,6 +56,10 @@ O bot oferece opções para o usuário selecionar e responde com base nas opçõ
 O bot lida com mensagens de áudio informando que ainda não há processamento para esse tipo de mensagem.
 Fique à vontade para modificar e expandir o código para adicionar mais recursos e interações ao bot do Telegram.
 
+- Informa cotação do Dolar.
+- Informa cotação de BTC e ETH.
+- Informa Top 5 Músicas do Mundo.
+
 ## Observações
 
 Certifique-se de ter configurado corretamente as credenciais do Twilio e do Telegram.
