@@ -28,6 +28,44 @@ async function obterValorDolar() {
   }
 }
 
+// OBTER TOKEN SPOTIFY
+const getAccessToken = async () => {
+  const response = await axios.post(
+    "https://accounts.spotify.com/api/token",
+    null,
+    {
+      params: {
+        grant_type: "client_credentials",
+      },
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      auth: {
+        username: process.env.SpotifyClientId,
+        password: process.env.SpotifyClientSecret,
+      },
+    }
+  );
+
+  return response.data.access_token;
+};
+
+// OBTER TOP SONGS
+const getTopSongs = async () => {
+  const accessToken = await getAccessToken();
+  const response = await axios.get(
+    "https://api.spotify.com/v1/playlists/37i9dQZEVXbMDoHDwVN2tF/tracks",
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
+
+  const songs = response.data.items.map((item) => item.track.name);
+  return songs;
+};
+
 // Configuração das credenciais
 const twilioClient = twilio(
   process.env.TWILIO_ACCOUNT_SID,
@@ -64,7 +102,7 @@ telegramBot.on("message", async (msg) => {
     return;
   }
 
-  if (!["1", "2", "3", "4"].includes(messageText)) {
+  if (!["1", "2", "3", "4", "5"].includes(messageText)) {
     const currentTime = moment();
     const morningTime = moment("06:00", "HH:mm");
     const afternoonTime = moment("12:00", "HH:mm");
@@ -81,7 +119,7 @@ telegramBot.on("message", async (msg) => {
 
     telegramBot.sendMessage(
       chatId,
-      `${greetingMessage} ${nomeMensageiro} \nDigite a opção desejada: \n1 - Valor do Dólar \n2 - Nome do Desenvolvedor do Bot \n3 - Linguagem de Desenvolvimento \n4 - Cotação Bitcoin e Ethereum`
+      `${greetingMessage} ${nomeMensageiro} \nDigite a opção desejada: \n1 - Valor do Dólar \n2 - Nome do Desenvolvedor do Bot \n3 - Linguagem de Desenvolvimento \n4 - Cotação Bitcoin e Ethereum \n5 - Top Músicas no momento:`
     );
     return;
   }
@@ -91,6 +129,7 @@ telegramBot.on("message", async (msg) => {
     2: "Desenvolvedor Responsável: Kaic Murilo Nunes.",
     3: "Linguagem de Desenvolvimento: Node.js / JavaScript.",
     4: "Aguarde enquanto as cotações são obtidas...",
+    5: "Top Músicas no momento:",
   };
 
   if (messageText === "1") {
@@ -105,6 +144,14 @@ telegramBot.on("message", async (msg) => {
 
     if (cotacoes) {
       options[4] = `Bitcoin: R$ ${cotacoes.bitcoin.brl} \nEthereum: R$ ${cotacoes.ethereum.brl} \nValores obtidos em tempo real do Coingecko.`;
+    }
+  }
+  if (messageText === "5") {
+    const topSongs = await getTopSongs();
+    console.log(topSongs);
+
+    if (topSongs) {
+      options[5] = `1 - ${topSongs[1]} \n2 - ${topSongs[2]} \n3 - ${topSongs[3]}\n4 - ${topSongs[4]}\n5 - ${topSongs[5]} \n Músicas obtidas em tempo real diretamente do TOP 50 Global Spotify.`;
     }
   }
 
